@@ -1,0 +1,84 @@
+CREATE DATABASE IF NOT EXISTS kajiado_muslim_community;
+
+USE kajiado_muslim_community;
+
+##ADMIN AUTH TABLE
+CREATE TABLE IF NOT EXISTS admins (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    password_hash VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        ON UPDATE CURRENT_TIMESTAMP
+);
+
+INSERT INTO admins
+(name, email, password_hash)
+VALUES
+(
+    'Administrator',
+    'admin@kajiadomuslimcommunity.org',
+    '$2b$10$FFUrA68B/pvjWO69HBHKR.gim/0Wp51dBrQeoAcNGnnYcqYmnvp.K'
+);
+
+##PROJECTS TABLE
+CREATE TABLE IF NOT EXISTS projects (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(200) NOT NULL,
+    category VARCHAR(100) NOT NULL,
+    description TEXT NOT NULL,
+    image VARCHAR(500),
+    status ENUM('Active', 'Completed', 'Upcoming') NOT NULL DEFAULT 'Upcoming',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        ON UPDATE CURRENT_TIMESTAMP
+);
+
+##LEADERSHIP TABLE
+CREATE TABLE IF NOT EXISTS leadership (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(150) NOT NULL,
+    position VARCHAR(100) NOT NULL,
+    bio TEXT,
+    image VARCHAR(255),
+    status ENUM('Active', 'Inactive') NOT NULL DEFAULT 'Active',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        ON UPDATE CURRENT_TIMESTAMP
+);
+
+##GALLERY TABLE
+CREATE TABLE IF NOT EXISTS gallery (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(200) NOT NULL,
+    image VARCHAR(255) NOT NULL,
+    category VARCHAR(100),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+##UPDATES TABLE
+CREATE TABLE IF NOT EXISTS updates (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    content TEXT NOT NULL,
+    image VARCHAR(255),
+    category VARCHAR(100),
+    status ENUM('Published', 'Draft') NOT NULL DEFAULT 'Draft',
+    published_at TIMESTAMP NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        ON UPDATE CURRENT_TIMESTAMP
+);
+
+##MESSAGES TABLE
+CREATE TABLE IF NOT EXISTS messages (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    subject VARCHAR(255) NOT NULL,
+    message TEXT NOT NULL,
+    status ENUM('Unread', 'Read') NOT NULL DEFAULT 'Unread',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
